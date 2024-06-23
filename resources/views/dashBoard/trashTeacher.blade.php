@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Teachers</li>
+          <li class="breadcrumb-item active">restore teacher</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

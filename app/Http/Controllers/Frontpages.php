@@ -29,6 +29,7 @@ class Frontpages extends Controller
       $title ="Teachers";
     return view('team', compact('title'));
    }
+   
    public function call(){
       $title ="Become A Teachers";
     return view('call', compact('title'));
@@ -46,3 +47,4 @@ class Frontpages extends Controller
     return view('error', compact('title'));
    }
 }
+  

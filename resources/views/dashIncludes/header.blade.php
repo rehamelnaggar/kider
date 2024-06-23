@@ -174,7 +174,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>{{ session('name') }}</h6>
+              <h6>{{ session('userName') }}</h6>
               <span>Web Designer</span>
             </li>
             <li>

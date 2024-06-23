@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('kider_classes', function (Blueprint $table) {
             $table->id();
-            $table->string('className',100);
+            $table->string('className', 100);
             $table->decimal('price', 8, 2);
             $table->unsignedInteger('age');
             $table->string('time');
             $table->unsignedInteger('capacity');
             $table->boolean('active');
-            $table->string('image',100);
-            $table->foreignId('teacher_id')->constrained('teachers');
+            $table->string('image', 100);
+            $table->string('teacherName', 100); 
             $table->timestamps();
         });
     }

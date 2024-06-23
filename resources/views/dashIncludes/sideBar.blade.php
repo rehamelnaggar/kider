@@ -116,7 +116,7 @@
 
           <li>
             <a href="{{route('dashboard.addChildToClass')}}" class="{{ request()->is('dashboard/addChildToClass') ? 'active' : '' }}" >
-              <i class="bi bi-circle "></i><span>Form add Kider Class</span>
+              <i class="bi bi-circle "></i><span>Form add child to Class</span>
             </a>
           </li>
 

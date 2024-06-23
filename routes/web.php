@@ -7,7 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\KiderClassesControl;
 use App\Http\Controllers\Children_ClassesController;
 use Illuminate\Support\Facades\Route;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard as HtmlDashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,27 +46,19 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/restoreTeacher/{id}', [Dashboard::class, 'restore'])->name('dashboard.restoreTeacher');
     Route::delete('/forceDeleteTeacher', [Dashboard::class, 'forcedelete'])->name('dashboard.forceDeleteTeacher');
 
-
     Route::get('/addChild', [ChildernController::class, 'create'])->name('dashboard.addChild');
     Route::get('/childern', [ChildernController::class, 'index'])->name('dashboard.childern');
     Route::get('/showChild/{id}', [ChildernController::class, 'show'])->name('dashboard.showChild');
     Route::delete('/delChild',[ChildernController::class, 'destroy'])->name('dashboard.delChild');
 
-
     Route::get('/addKiderClass', [KiderClassesControl::class, 'create'])->name('dashboard.addKiderClass');
+    Route::post('/insertKiderClass', [KiderClassesControl::class, 'store'])->name('dashboard.insertKiderClass'); // Add this line
     Route::get('/KiderClasses', [KiderClassesControl::class, 'index'])->name('dashboard.KiderClasses');
     Route::get('/editKiderClass/{id}', [KiderClassesControl::class, 'edit'])->name('dashboard.editKiderClass');
     Route::put('/updateKiderClass/{id}', [KiderClassesControl::class, 'update'])->name('dashboard.updateKiderClass');
     Route::get('/showKiderClass/{id}', [KiderClassesControl::class, 'show'])->name('dashboard.showKiderClass');
 
-
     Route::get('/addChildToClass', [Children_ClassesController::class, 'create'])->name('dashboard.addChildToClass');
-
-
-
-
-
-
 });
     //Route::get('/profile', [ProfileController::class, 'index'])->name('dashboard.profile');
     //Route::get('/settings', [SettingsController::class, 'index'])->name('dashboard.settings');
