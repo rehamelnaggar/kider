@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Traits\Traits\UploadFile;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 
-class Dashboard extends Controller
+class DashBoard extends Controller
 {
-    use UploadFile; 
-    private $columns = ['fullName', 'phone', 'facebook', 'twitter', 'instagram', 'image'];
-
+    use UploadFile;
+    private $columns = ['fullName', 'phone', 'facebook', 'twitter', 'instagram','image'];
+    //public function dashHome(){
+        //$title = "Dashboard - NiceAdmin Bootstrap Template";
+        //return view('dashHome', compact('title'));
+       //}
     /**
      * Display a listing of the resource.
      */
@@ -19,23 +21,24 @@ class Dashboard extends Controller
         return view('dashboard.index'); 
     }
 
-    /**
-     * Display a listing of teachers.
-     */
-    public function indexTeachers()
+    public function indexTeacher()
     {
-        $teachers = Teacher::get(); 
-        return view('dashboard.teachers', compact('teachers')); 
+        $teachers= Teacher::get ();
+        return view ('dashboard.teachers', compact('teachers'));
+    
     }
 
+    //public function addTeacher()
+    //{
+       // return view('dashboard.addTeacher'); 
+    //}
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $title = "Add teacher";
-
-        return view('dashboard.addTeacher', compact('title')); 
+        $title ="Add teacher";
+        return view('dashboard.addTeacher', compact('title'));
     }
 
     /**
@@ -43,20 +46,26 @@ class Dashboard extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+         //$messages = $this->erMsg();
+
+         $data = $request->validate([
+        
             'fullName' => 'required|string|max:100',
             'phone' => 'required|string|max:50',
             'facebook' => 'nullable|string|max:255',
             'twitter' => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+         ]);
 
-        $fileName = $this->upload($request->image, 'assets/img');
-        $data['image'] = $fileName;
+        $fileName= $this->upload($request->image, 'assets/img');
+         $data['image'] = $fileName;
 
-        Teacher::create($data); 
-        return redirect('dashboard/teachers')->with('success', 'Teacher added successfully');   
+   
+
+       Teacher::create($data);
+        return redirect('dashboard/teachers');
+
     }
 
     /**
@@ -65,9 +74,9 @@ class Dashboard extends Controller
     public function show(string $id)
     {
         $title = "Show Teacher";
-        $teacher = Teacher::findOrFail($id); 
-
-        return view('dashboard.showTeacher', compact('teacher', 'title'));  
+        $teacher = Teacher::findOrFail($id);
+    
+    return view('dashboard.showTeacher', compact('teacher', 'title'));
     }
 
     /**
@@ -75,10 +84,9 @@ class Dashboard extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Edit teacher";
-        $teacher = Teacher::findOrFail($id); 
-
-        return view('dashboard.editTeacher', compact('teacher', 'title')); 
+        $title ="edit teacher";
+        $teacher = Teacher::findOrFail($id);
+    return view('dashboard.editTeacher', compact('teacher', 'title'));
     }
 
     /**
@@ -94,64 +102,67 @@ class Dashboard extends Controller
             'twitter' => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+         ]);
+       
 
-        
-        if ($request->hasFile('image')) {
-            
-            if ($teacher->image && file_exists('assets/img/' . $teacher->image)) {
-                unlink('assets/img/' . $teacher->image);
-            }
-        
-            $fileName = $this->upload($request->image, 'assets/img');
-            $data['image'] = $fileName;
-        } else {
-            
-            $data['image'] = $teacher->image;
+// Handle image upload
+if (isset($request->image) && $request->hasFile('image')) {
+    // Delete the old image if it exists
+    if (isset($teacher->image) && $teacher->image) {
+        $oldImagePath =('assets/img/' . $teacher->image);
+        if (file_exists($oldImagePath)) {
+            unlink($oldImagePath);
         }
-
-        $teacher->update($data); 
-
-        return redirect()->route('dashboard.teachers')->with('success', 'Teacher updated successfully');
     }
+    // Store the new image
+$fileName= $this->upload($request->image, 'assets/img');
+        $data['image'] = $fileName;
+} else {
+    // Keep the old image if no new image is uploaded
+    $data['image'] = $teacher->image;
+}
+
+       //Teacher:: where('id', $id)->update($data);
+       $teacher->update($data);
+       return redirect()->route('dashboard.teachers')->with('success', 'Teacher updated successfully');
+      // return redirect('dashboard/teachers');
+    }
+    
 
     /**
      * Remove the specified resource from storage.
      */
+    
     public function destroy(Request $request)
     {
         $id = $request->id;
-        Teacher::findOrFail($id)->delete(); 
-        return redirect('dashboard/teachers')->with('success', 'Teacher deleted successfully'); 
+        Teacher:: where('id', $id)->delete();
+        return redirect('dashboard/teachers');
     }
-
-    /**
-     * Display a listing of soft deleted teachers.
+/**
+     * soft delete for teacher.
      */
     public function trash()
     {
         $trashed = Teacher::onlyTrashed()->get();
-        return view('dashboard.trashTeacher', compact('trashed'));
+    return view('dashboard.trashTeacher', compact('trashed'));
     }
 
-    /**
-     * Restore the specified soft deleted resource.
-     */
+
     public function restore(string $id)
-    {
-        Teacher::withTrashed()->findOrFail($id)->restore(); 
+   {
+    Teacher:: where('id', $id)->restore();
+    return redirect('dashboard/teachers');
+   }
 
-        return redirect('dashboard/teachers')->with('success', 'Teacher restored successfully'); 
-    }
 
-    /**
-     * Remove the specified resource permanently from storage.
-     */
-    public function forceDelete(Request $request)
-    {
-        $id = $request->id;
-        Teacher::where('id', $id)->forceDelete(); 
 
-        return redirect('dashboard/trashTeacher')->with('success', 'Teacher permanently deleted');
-    }
+   public function forceDelete(Request $request)
+   {
+       $id = $request->id;
+       Teacher:: where('id', $id)->forcedelete();
+       return redirect('dashboard/trashTeacher');
+   }
+
+ 
 }

@@ -52,7 +52,7 @@ Route::prefix('dashboard')->group(function () {
     Route::delete('/delChild',[ChildernController::class, 'destroy'])->name('dashboard.delChild');
 
     Route::get('/addKiderClass', [KiderClassesControl::class, 'create'])->name('dashboard.addKiderClass');
-    Route::post('/insertKiderClass', [KiderClassesControl::class, 'store'])->name('dashboard.insertKiderClass'); // Add this line
+    Route::post('/insertKiderClass', [KiderClassesControl::class, 'store'])->name('dashboard.insertKiderClass'); 
     Route::get('/KiderClasses', [KiderClassesControl::class, 'index'])->name('dashboard.KiderClasses');
     Route::get('/editKiderClass/{id}', [KiderClassesControl::class, 'edit'])->name('dashboard.editKiderClass');
     Route::put('/updateKiderClass/{id}', [KiderClassesControl::class, 'update'])->name('dashboard.updateKiderClass');
@@ -60,16 +60,7 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/addChildToClass', [Children_ClassesController::class, 'create'])->name('dashboard.addChildToClass');
 });
-    //Route::get('/profile', [ProfileController::class, 'index'])->name('dashboard.profile');
-    //Route::get('/settings', [SettingsController::class, 'index'])->name('dashboard.settings');
-
-//Route::get('dashHome',[DashBoard::class,'dashHome'])->name('dashHome');
-
-//Route::get('dashLogin',[DashBoard::class,'dashLogin'])->name('dashLogin');
-//Route::post('dashLogin',[DashBoard::class,'receiveData'])->name('receiveData');
-
-//Route::get('dashRegister',[DashBoard::class,'dashRegister'])->name('dashRegister');
-//Route::post('dashRegister', [DashBoard::class, 'store'])->name('dashRegister.store');
+    
 Auth::routes(['verify'=>true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
