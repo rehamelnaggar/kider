@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\KiderClass;
 use App\Traits\Traits\UploadFile;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Storage;
 
 class KiderClassesControl extends Controller
 {
@@ -23,9 +24,9 @@ class KiderClassesControl extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() 
+    public function create()
     {
-        $title ="Add kider class";
+        $title = "Add kider class";
         $teachers = Teacher::all();
         return view('dashboard.addKiderClass', compact('title', 'teachers'));
     }
@@ -44,14 +45,16 @@ class KiderClassesControl extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'teacherName' => 'required|exists:teachers,fullName',
         ]);
-    
+        
         $fileName = $this->upload($request->image, 'assets/img');
         $data['image'] = $fileName;
-        $data['active'] = isset($request->active);
-    
+        $data['active'] = $request->has('active');
+        
         KiderClass::create($data);
-        return redirect('dashboard/KiderClasses');
+        
+        return redirect('dashboard/KiderClasses')->with('success', 'Kider class added successfully');
     }
+
     /**
      * Display the specified resource.
      */
@@ -59,8 +62,8 @@ class KiderClassesControl extends Controller
     {
         $title = "Show kider class";
         $kiderClass = KiderClass::findOrFail($id);
-    
-    return view('dashboard.showKiderClass', compact('kiderClass', 'title'));
+        
+        return view('dashboard.showKiderClass', compact('kiderClass', 'title'));
     }
 
     /**
@@ -68,56 +71,54 @@ class KiderClassesControl extends Controller
      */
     public function edit(string $id)
     {
-        $title ="edit  kider class";
+        $title = "Edit kider class";
         $kiderClass = KiderClass::findOrFail($id);
-    return view('dashboard.editKiderClass', compact('kiderClass', 'title'));
+        $teachers = Teacher::all();
+        
+        return view('dashboard.editKiderClass', compact('kiderClass', 'teachers', 'title'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $kiderClass = KiderClass::findOrFail($id);
+    
         $data = $request->validate([
             'className' => 'required|string|max:100',
             'price' => 'required|numeric|max:5000.99',
             'age' => 'nullable|string|max:255',
-            'time' => 'nullable|string|max:20',
+            'time' => 'required|string|max:20',
             'capacity' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'teacher_id' => 'required|exists:teachers,id',
-         ]);
-       
-
-// Handle image upload
-if (isset($request->image) && $request->hasFile('image')) {
-    // Delete the old image if it exists
-    if (isset($kiderClass->image) && $kiderClass->image) {
-        $oldImagePath =('assets/img/' . $kiderClass->image);
-        if (file_exists($oldImagePath)) {
-            unlink($oldImagePath);
+        ]);
+    
+        // Handle image upload if a new image is provided
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($kiderClass->image) {
+                Storage::delete('public/' . $kiderClass->image);
+            }
+            // Upload new image
+            $imagePath = $request->file('image')->store('public/assets/img');
+            $data['image'] = basename($imagePath);
+        } else {
+            // Keep the existing image if no new image is uploaded
+            $data['image'] = $kiderClass->image;
         }
+    
+        // Update the KiderClass instance
+        $kiderClass->update($data);
+    
+        return redirect()->route('dashboard.KiderClasses')->with('success', 'Kider class updated successfully');
     }
-    // Store the new image
-$fileName= $this->upload($request->image, 'assets/img');
-        $data['image'] = $fileName;
-} else {
-    // Keep the old image if no new image is uploaded
-    $data['image'] = $kiderClass->image;
-}
-
-       //kider class:: where('id', $id)->update($data);
-       $kiderClass->update($data);
-       return redirect()->route('dashboard.KiderClasses')->with('success', 'kider class updated successfully');
-      // return redirect('dashboard/kider class');
-    }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        // Implementation for deleting a resource goes here if needed
     }
 }

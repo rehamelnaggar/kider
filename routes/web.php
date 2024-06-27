@@ -67,11 +67,6 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('/addChildToClass', [Children_ClassesController::class, 'create'])->name('dashboard.addChildToClass');
     Route::get('/childToClasses', [Children_ClassesController::class, 'index'])->name('dashboard.childToClasses');
-    // Route::get('/editChildToClass/{id}', [Children_ClassesController::class, 'edit'])->name('dashboard.editChildToClass');
-    // Route::put('/updateChildToClass/{id}', [Children_ClassesController::class, 'update'])->name('dashboard.updateChildToClass');
-    // Route::delete('/delChildToClass', [Children_ClassesController::class, 'destroy'])->name('dashboard.delChildToClass');
-
-
     Route::get('/contact', [ContactController::class, 'index'])->name('dashboard.contact');
     Route::get('/showEmail/{id}', [ContactController::class, 'show'])->name('dashboard.showEmail');
     
