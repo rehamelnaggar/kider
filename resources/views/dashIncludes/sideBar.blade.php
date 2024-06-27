@@ -116,7 +116,7 @@
 
           <li>
             <a href="{{route('dashboard.addChildToClass')}}" class="{{ request()->is('dashboard/addChildToClass') ? 'active' : '' }}" >
-              <i class="bi bi-circle "></i><span>Form add child to Class</span>
+              <i class="bi bi-circle "></i><span>Form add Child to Class</span>
             </a>
           </li>
 
@@ -124,10 +124,10 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-      <a class="nav-link collapsed {{ request()->is('dashboard/teachers') || request()->is('dashboard/trashTeacher') || request()->is('dashboard/childern') || request()->is('dashboard/KiderClasses') ? 'active' : '' }}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed {{ request()->is('dashboard/teachers') || request()->is('dashboard/trashTeacher') || request()->is('dashboard/childern') || request()->is('dashboard/KiderClasses') || request()->is('dashboard/childToClasses') || request()->is('dashboard/contact') ? 'active' : '' }}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="tables-nav" class="nav-content collapse {{ request()->is('dashboard/teachers') || request()->is('dashboard/trashTeacher') || request()->is('dashboard/childern') || request()->is('dashboard/KiderClasses') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+        <ul id="tables-nav" class="nav-content collapse {{ request()->is('dashboard/teachers') || request()->is('dashboard/trashTeacher') || request()->is('dashboard/childern') || request()->is('dashboard/KiderClasses') || request()->is('dashboard/childToClasses') || request()->is('dashboard/contact') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
          
         <li>
         <a href="{{ route('dashboard.teachers') }}" class="{{ request()->is('dashboard/teachers') ? 'active' : '' }}">
@@ -154,7 +154,20 @@
             </a>
           </li>
 
+          <li>
+          <a href="{{ route('dashboard.childToClasses') }}" class="{{ request()->is('dashboard.childToClasses') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>child to Classes</span>
+            </a>
+          </li>
           
+
+          <li>
+          <a href="{{ route('dashboard.contact') }}" class="{{ request()->is('dashboard.contact') ? 'active' : '' }}">
+              <i class="bi bi-circle"></i><span>contact</span>
+            </a>
+          </li>
+
+
         </ul>
       </li><!-- End Tables Nav -->
 
@@ -221,7 +234,7 @@
       </li><!-- End F.A.Q Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-contact.html">
+        <a class="nav-link collapsed" href="{{route('dashboard.contact')}}">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>

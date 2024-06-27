@@ -9,6 +9,18 @@ class Child_Class extends Model
 {
     use HasFactory;
 
-    protected $table = 'children_classes';
-    protected $fillable = ['child_id', 'class_id'];
+    protected $fillable = [
+        'child_id',
+        'class_id',
+    ];
+
+    public function child()
+    {
+        return $this->belongsTo(Child::class, 'child_id');
+    }
+
+    public function class()
+    {
+        return $this->belongsTo(KiderClass::class, 'class_id');
+    }
 }

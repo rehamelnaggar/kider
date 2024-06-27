@@ -14,11 +14,8 @@ class Child extends Model
         'birthDate',
     ];
 
-    /**
-     */
     public function classes()
     {
-       
-        return $this->belongsToMany(KiderClass::class, 'children_classes', 'child_id', 'class_id');
+        return $this->belongsToMany(KiderClass::class, 'child_classes', 'child_id', 'class_id');
     }
 }

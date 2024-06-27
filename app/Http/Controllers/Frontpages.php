@@ -7,14 +7,16 @@ use App\Models\Teacher;
 class Frontpages extends Controller
 {
    public function home2(){
-    $teachers=Teacher::all();
-    return view('home2',compact('teachers'));
 
+      //$teachers = Teacher::all();
+      $teachers = Teacher::take(3)->get();
+    return view('home2', compact('teachers'));
    }
 
    public function about(){
       $title ="About us";
-      $teachers=Teacher::all();
+      //$teachers = Teacher::all();
+      $teachers = Teacher::take(3)->get();
     return view('about', compact('title','teachers'));
    }
 
@@ -35,10 +37,11 @@ class Frontpages extends Controller
 
    public function team(){
       $title ="Teachers";
-      $teachers=Teacher::all();
+      //$teachers = Teacher::all();
+      $teachers = Teacher::take(3)->get();
     return view('team', compact('title','teachers'));
    }
-   
+
    public function call(){
       $title ="Become A Teachers";
     return view('call', compact('title'));
@@ -53,10 +56,9 @@ class Frontpages extends Controller
       $title ="Testimonial";
     return view('testimonial', compact('title'));
    }
-
+   
    public function error(){
       $title ="404 Error";
     return view('error', compact('title'));
    }
 }
-  

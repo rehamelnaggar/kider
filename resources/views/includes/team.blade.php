@@ -12,7 +12,7 @@
                             <img class="img-fluid rounded-circle w-75" src="{{asset ('assets/img/' . $teacher->image )}}" alt="">
                             <div class="team-text">
                                 <h3>{{$teacher->fullName}}</h3>
-                                <p>Designation</p>
+                                <p>{{$teacher->designation}}</p>
                                 <div class="d-flex align-items-center">
                                     <a class="btn btn-square btn-primary mx-1" href="{{$teacher->facebook}}"><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-square btn-primary  mx-1" href="{{$teacher->twitter}}"><i class="fab fa-twitter"></i></a>

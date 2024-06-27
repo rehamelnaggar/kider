@@ -13,6 +13,7 @@ class Teacher extends Model
     protected $fillable = [
         'fullName',
         'phone',
+        'designation',
         'facebook',
         'twitter',
         'instagram',

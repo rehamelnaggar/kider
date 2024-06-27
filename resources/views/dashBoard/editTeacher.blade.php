@@ -39,6 +39,16 @@
                   </div>
                 </div>
 
+
+                <div class="row mb-3">
+                  <label for="inputdesignation"  class="col-sm-2 col-form-label">designation</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="designation" value="{{ $teacher->designation }}" class="form-control">
+                  </div>
+                </div>
+
+
+
                 <div class="row mb-3">
                   <label for="inputFacebook"  class="col-sm-2 col-form-label">Facebook</label>
                   <div class="col-sm-10">

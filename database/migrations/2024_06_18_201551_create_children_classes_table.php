@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('children_classes', function (Blueprint $table) {
-            $table->foreignId('class_id')->constrained('kider_classes');
-            $table->foreignId('child_id')->constrained('children');
+            $table->id();
+            $table->unsignedBigInteger('child_id');
+            $table->unsignedBigInteger('class_id');
             $table->timestamps();
-
-            $table->primary(['class_id', 'child_id']); // same student cannot be enrolled in the same class more than once.
+            $table->foreign('child_id')->references('id')->on('children')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('kider_classes')->onDelete('cascade');
         });
     }
 

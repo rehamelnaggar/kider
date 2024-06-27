@@ -23,8 +23,8 @@
                         <h5 class="card-title">General Add Kider Class</h5>
 
                         <!-- General Form Elements -->
-                        <form action="{{ route('dashboard.addKiderClass') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+                        <form action="{{ route('dashboard.addKiderClass.store') }}" method="post" enctype="multipart/form-data">
+                          @csrf
                             <div class="mb-3">
                                 <label for="inputClassName" class="form-label">Class Name</label>
                                 <p style="color: red">
@@ -93,8 +93,8 @@
                                     @enderror
                                 </p>
                                 <select name="teacherName" class="form-control">
-                                    @foreach(\App\Models\Teacher::all() as $teacher)
-                                        <option value="{{ $teacher->id }}" {{ old('teacherName') == $teacher->id ? 'selected' : '' }}>{{ $teacher->fullName }}</option>
+                                    @foreach($teachers as $teacher)
+                                        <option value="{{ $teacher->fullName }}" {{ old('teacherName') == $teacher->fullName ? 'selected' : '' }}>{{ $teacher->fullName }}</option>
                                     @endforeach
                                 </select>
                             </div>

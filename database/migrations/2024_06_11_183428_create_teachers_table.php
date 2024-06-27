@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('fullName', 100);
             $table->string('image', 100);
             $table->string('phone', 50);
+            $table->string('designation', 255)->nullable(); 
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('instagram')->nullable();

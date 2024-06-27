@@ -15,7 +15,17 @@ class Children_ClassesController extends Controller
      */
     public function index()
     {
-        //
+       // Fetching all children
+       $children = Child::all();
+
+       // Fetching all classes
+       $classes = KiderClass::all();
+
+       // Fetching all child-class assignments
+       $rolls = Child_Class::with(['child', 'class'])->get();
+
+       // Returning the view with the required data
+       return view('dashboard.childToClasses', compact('children', 'classes', 'rolls'));
     }
 
     /**
@@ -41,9 +51,18 @@ class Children_ClassesController extends Controller
             'class_id' => 'required|exists:kider_classes,id',
         ]);
         
+
+// Check if the class already has 30 children
+$class = KiderClass::findOrFail($data['class_id']);
+if ($class->children->count() >= 3) {
+    //return ('This class already has the maximum number of children (3).');
+    return redirect()->back()->with('error', 'This class already has the maximum number of children (3).');
+}
+
+
         Child_Class::create($data);
         //return redirect('dashboard/KiderClasses');
-        return 'add';
+        return view('dashboard.ChildToClasses');
     }
     
 
@@ -60,7 +79,8 @@ class Children_ClassesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+       //
     }
 
     /**
@@ -74,8 +94,8 @@ class Children_ClassesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+       //
     }
 }

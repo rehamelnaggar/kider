@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Teacher;
 
 class KiderClass extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'className',
         'price',
@@ -18,15 +20,13 @@ class KiderClass extends Model
         'teacherName',
     ];
 
-    // Define the relationship with Teacher model
     public function teacher()
     {
         return $this->belongsTo(Teacher::class, 'teacherName', 'fullName');
     }
 
-    // Method to fetch teacher names for adding a Kider class
-    public static function getTeacherNames()
+    public function children()
     {
-        return Teacher::pluck('fullName', 'fullName');
+        return $this->belongsToMany(Child::class, 'child_classes', 'class_id', 'child_id');
     }
 }

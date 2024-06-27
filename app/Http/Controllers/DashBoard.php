@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Contact;
 use App\Traits\Traits\UploadFile;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
@@ -8,7 +9,7 @@ use App\Models\Teacher;
 class DashBoard extends Controller
 {
     use UploadFile;
-    private $columns = ['fullName', 'phone', 'facebook', 'twitter', 'instagram','image'];
+    private $columns = ['fullName', 'phone','designation', 'facebook', 'twitter', 'instagram','image'];
     //public function dashHome(){
         //$title = "Dashboard - NiceAdmin Bootstrap Template";
         //return view('dashHome', compact('title'));
@@ -18,12 +19,16 @@ class DashBoard extends Controller
      */
     public function index()
     {
-        return view('dashboard.index'); 
+        //$emails= Contact::get ();
+        //$emails = Contact::take(3)->get();
+        $messages = Contact::where('readable', 0)->take(3)->get();
+        return view('dashboard.index', compact('messages')); 
     }
 
     public function indexTeacher()
     {
         $teachers= Teacher::get ();
+      
         return view ('dashboard.teachers', compact('teachers'));
     
     }
@@ -53,6 +58,7 @@ class DashBoard extends Controller
             'fullName' => 'required|string|max:100',
             'phone' => 'required|string|max:50',
             'facebook' => 'nullable|string|max:255',
+            'designation'=>'required|string|max:150',
             'twitter' => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -99,6 +105,7 @@ class DashBoard extends Controller
             'fullName' => 'required|string|max:100',
             'phone' => 'required|string|max:50',
             'facebook' => 'nullable|string|max:255',
+            'designation'=>'nullable|string|max:150',
             'twitter' => 'nullable|string|max:255',
             'instagram' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

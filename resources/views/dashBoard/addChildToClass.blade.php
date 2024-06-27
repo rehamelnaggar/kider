@@ -31,7 +31,7 @@
                                 <div class="col-sm-10">
                                     <select class="form-select" name="child_id" id="child_id" required>
                                         @foreach($children as $child)
-                                            <option value="{{ $child->id }}">{{ $child->childName }}</option>
+                                            <option value="{{ $child->id }}">{{ $child->childName }}</option> 
                                         @endforeach
                                     </select>
                                 </div>
@@ -72,4 +72,3 @@
 
   </main><!-- End #main -->
                
-               @endsection
